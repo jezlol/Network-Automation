@@ -48,22 +48,5 @@ def get_lab_devices():
         print(f"Error fetching devices: {str(e)}")
         return []
 
-# Function to delete a device from Eve-NG Lab
-def delete_device_from_eve_ng(lab_id, node_id):
-    cookies = login_to_eve_ng()
-    if not cookies:
-        return False
 
-    url = f"http://192.168.1.148/api/labs/{lab_id}/nodes/{node_id}"
 
-    try:
-        response = requests.delete(url, cookies=cookies)
-        if response.status_code == 204:
-            print(f"Device {node_id} deleted successfully.")
-            return True
-        else:
-            print(f"Failed to delete device {node_id}: {response.status_code}")
-            return False
-    except Exception as e:
-        print(f"Error deleting device: {str(e)}")
-        return False

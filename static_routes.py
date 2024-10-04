@@ -32,4 +32,32 @@ def open_route_config_window(shell, router_name, device_ip, result_text):
             except Exception as e:
                 result_text.insert("end", f"Error configuring static route: {str(e)}\n")
 
-    Button(route_window, text="Configure Route", command=configure_route).pack(pady=5)
+    # Function to remove the static route
+    def remove_route():
+        dest_network = dest_network_entry.get()
+        subnet_mask = subnet_mask_entry.get()
+        next_hop = next_hop_entry.get()
+        if dest_network and subnet_mask and next_hop:
+            try:
+                command = f"configure terminal\nno ip route {dest_network} {subnet_mask} {next_hop}\nexit\nexit\n"
+                shell.send(f"{command}\n")
+                time.sleep(2)
+                output = shell.recv(10000).decode('utf-8')
+                result_text.insert("end", f"Removed static route:\n{output}\n")
+            except Exception as e:
+                result_text.insert("end", f"Error removing static route: {str(e)}\n")
+
+    # Configure Route Button
+    configure_button = Button(route_window, text="Configure Route", command=configure_route)
+    configure_button.pack(pady=5)
+
+    # Remove Route Button
+    remove_button = Button(route_window, text="Remove Route", command=remove_route)
+    remove_button.pack(pady=5)
+
+    # Back Button to return to the previous window
+    def go_back():
+        route_window.destroy()
+
+    back_button = Button(route_window, text="Back", command=go_back)
+    back_button.pack(pady=10)

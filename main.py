@@ -2,7 +2,6 @@ import tkinter as tk
 from tkinter import ttk
 from gui_components import open_ip_edit_window, save_callback  # Import other necessary functions from gui_components
 from gui_helpers import load_devices_into_treeview  # Import load_devices_into_treeview from gui_helpers
-from eve_ng_api import delete_device_from_eve_ng  # Import from eve_ng_api
 from router_commands import run_with_netmiko, run_with_paramiko  # Router command functions
 from ssh_cli import login_via_ssh  # Import the new SSH functionality
 from ssh_cli import login_via_ssh
@@ -69,37 +68,6 @@ login_button.pack(pady=5)
 refresh_button = tk.Button(root, text="Refresh", command=lambda: load_devices_into_treeview(device_tree))
 refresh_button.pack(side=tk.LEFT, padx=10)
 
-# Function to delete a selected device from Eve-NG
-def delete_device():
-    selected_device = device_tree.selection()
-
-    if not selected_device:
-        result_text.delete("1.0", tk.END)
-        result_text.insert(tk.END, "Please select a device to delete.\n")
-        return
-
-    # Retrieve the device info
-    try:
-        device_info = device_tree.item(selected_device)["values"]
-        node_id = device_info[0]  # Assuming device ID is in the first column
-
-        # Delete the device via Eve-NG API
-        success = delete_device_from_eve_ng("Jezlol.unl", node_id)
-
-        if success:
-            result_text.delete("1.0", tk.END)
-            result_text.insert(tk.END, f"Device {node_id} deleted successfully.\n")
-            load_devices_into_treeview(device_tree)  # Refresh the device list after deletion
-        else:
-            result_text.delete("1.0", tk.END)
-            result_text.insert(tk.END, f"Failed to delete device {node_id}.\n")
-    except Exception as e:
-        result_text.delete("1.0", tk.END)
-        result_text.insert(tk.END, f"Error: {str(e)}\n")
-
-# Delete button
-delete_button = tk.Button(root, text="Delete", command=delete_device)
-delete_button.pack(side=tk.LEFT, padx=10)
 
 # Start the GUI loop
 

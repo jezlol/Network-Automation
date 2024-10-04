@@ -1,10 +1,11 @@
 import paramiko
 import time
 from tkinter import Toplevel, Button, Label
-from cli_window import open_cli_window
 from quick_commands import open_quick_command_script_window
-from static_routes import open_route_config_window
-
+from cli_window import open_cli_window
+from routing_window import open_routing_window
+from redistribution import open_redistribution_window
+from eras import erase_router_config  # Import the erase function
 
 # Function to open the option selection window
 def open_option_window(shell, router_name, device_ip, result_text):
@@ -16,12 +17,13 @@ def open_option_window(shell, router_name, device_ip, result_text):
     # Buttons for each option
     Button(option_window, text="CLI", command=lambda: open_cli_window(shell, router_name, device_ip, result_text)).pack(pady=5)
     Button(option_window, text="Quick Command Scripts", command=lambda: open_quick_command_script_window(shell, router_name, device_ip, result_text)).pack(pady=5)
-    Button(option_window, text="Route", command=lambda: open_route_config_window(shell, router_name, device_ip, result_text)).pack(pady=5)
-    
+    Button(option_window, text="Routing", command=lambda: open_routing_window(shell, router_name, device_ip, result_text)).pack(pady=5)
+    Button(option_window, text="Redistribute Routes", command=lambda: open_redistribution_window(shell, router_name, device_ip, result_text)).pack(pady=5)
+    Button(option_window, text="Erase Config", command=lambda: erase_router_config(shell, router_name, result_text)).pack(pady=5)
 
 # SSH login function remains the same
 def login_via_ssh(router_name, device_ip, result_text):
-    username = "admin"
+    username = "jez"
     password = "123"
     enable_password = "123"
 

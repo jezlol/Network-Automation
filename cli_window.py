@@ -1,3 +1,4 @@
+import time
 from tkinter import Toplevel, Text, Entry, Button
 
 # Function to create the CLI window after logging in via SSH
@@ -27,6 +28,13 @@ def open_cli_window(shell, router_name, device_ip, result_text):
     # Button to send commands
     send_button = Button(cli_window, text="Send", command=send_command)
     send_button.pack(pady=5)
+
+    # Back Button to return to the main option window
+    def go_back():
+        cli_window.destroy()
+
+    back_button = Button(cli_window, text="Back", command=go_back)
+    back_button.pack(pady=5)
 
     # Bind the Enter key to the send_command function
     cli_entry.bind("<Return>", send_command)

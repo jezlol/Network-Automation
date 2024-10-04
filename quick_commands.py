@@ -1,6 +1,8 @@
 from tkinter import Toplevel, Button, Label
 from arp_commands import show_arp_table, clear_arp_table
 from traceroute import traceroute_script
+import time
+from assign_ip import open_assign_ip_window
 
 # Function to open the Quick Command Scripts window
 def open_quick_command_script_window(shell, router_name, device_ip, result_text):
